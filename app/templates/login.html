@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <style>
+        .wrapper {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            left: 35%;
+            top: 20%;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <form action="">
+        <div>
+            <span>邮箱：</span>
+            <input type="text" id="email">
+        </div>
+        <div>
+            <span>密码：</span>
+            <input type="text" id="password">
+        </div>
+        <div>
+            <button type="button" onclick="login()">登录</button>
+        </div>
+    </form>
+</div>
+<script src="{{ url_for("static",filename="js/jquery-3.3.0.js") }}"></script>
+<script>
+    function login() {
+        let email=$("#email").val();
+        let password=$("#password").val();
+
+        $.ajax({
+            url:"{{ url_for("login",_external=true) }}",
+            type:"POST",
+            data:JSON.stringify({
+                "email":email,
+                "password":password,
+            }),
+            headers:{"Content-Type":"application/json"},
+            async:true,
+            success:function (data) {
+                if(data["code"]===0){
+                    alert(data["msg"]);
+                    return
+                }
+                alert("登录成功")
+            }
+        })
+    }
+</script>
+</body>
+</html>
